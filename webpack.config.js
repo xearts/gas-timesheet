@@ -1,12 +1,18 @@
 const path = require('path');
-const GasPlugin = require("gas-webpack-plugin");
+const GasPlugin = require('gas-webpack-plugin');
+const DotenvPlugin = require('webpack-dotenv-plugin');
+const webpack = require('webpack');
+
+require('dotenv').config();
 
 module.exports = {
   mode: 'development',
-  entry: './src/main.ts',
+  entry: {
+    main: './src/main.ts'
+  },
   devtool: false,
   output: {
-    filename: 'main.js',
+    filename: '[name].js',
     path: path.join(__dirname, 'dist')
   },
   module: {
@@ -19,10 +25,17 @@ module.exports = {
   },
   resolve: {
     extensions: [
-      '.ts'
+      '.ts',
+      '.js'
     ]
   },
   plugins: [
-    new GasPlugin()
+    new GasPlugin(),
+    new DotenvPlugin({
+        sample: './.env.sample',
+        path: './.env'
+    }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp(process.env.LOCALE)),
+    // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ]
 };
