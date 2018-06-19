@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 
@@ -28,7 +28,7 @@ export default class GASSheets implements Sheets {
     sheet.getRange('B2:B').setNumberFormat('hh:mm');
     sheet.getRange('C2:C').setNumberFormat('hh:mm');
 
-    sheet.getRange('A3').setValue(moment().toDate());
+    sheet.getRange('A3').setValue(dayjs().toDate());
     return sheet;
   }
 

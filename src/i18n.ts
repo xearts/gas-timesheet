@@ -1,6 +1,6 @@
 import * as Polyglot from 'node-polyglot';
-import * as moment from 'moment';
-import Moment = moment.Moment;
+import * as dayjs from 'dayjs';
+import Dayjs = dayjs.Dayjs;
 import _ from 'lodash';
 
 import Messages from './messages';
@@ -26,7 +26,7 @@ export default class I18n extends Polyglot {
     }
 
 
-    public parseTime(str: string): Moment | null {
+    public parseTime(str: string): Dayjs | null {
 
         const reg = new RegExp('((\\d{1,2})\\s*[:'
             + this.t('dateTimeSettings.oclock')
@@ -44,7 +44,7 @@ export default class I18n extends Polyglot {
         const matches = str.match(reg);
 
         if (matches) {
-            let hour, min;
+            let hour = 0, min = 0;
 
             // 10:30, 17:30, 8:30am, 5:00pm, etc
             if (matches[2] != null) {
@@ -67,27 +67,27 @@ export default class I18n extends Polyglot {
             if (matches[7] != null) {
                 hour = parseInt(matches[7]);
             }
-            return moment({hour: hour, minute: min});
+            return dayjs().set('hour', hour).set('minute', min).set('second', 0);
         }
         return null;
     };
 
     // get date from string
-    public parseDate(str: string): Moment | null {
+    public parseDate(str: string): Dayjs | null {
 
         const regTomorrow = new RegExp(this.t('dateTimeSettings.tomorrow'), 'i');
         if (str.match(regTomorrow)) {
-            return moment().add('days', 1).startOf('day');
+            return dayjs().add(1, 'day').startOf('day');
         }
 
         const regToday = new RegExp(this.t('dateTimeSettings.today'), 'i');
         if (str.match(regToday)) {
-            return moment().startOf('day');
+            return dayjs().startOf('day');
         }
 
         const regYesterday = new RegExp(this.t('dateTimeSettings.yesterday'), 'i');
         if (str.match(regYesterday)) {
-            return moment().add('days', -1).startOf('day');
+            return dayjs().subtract(1, 'day').startOf('day');
         }
 
         const reg = /((\d{4})[-\/年]{1})(\d{1,2})[-\/月]{1}(\d{1,2})/;
@@ -96,7 +96,7 @@ export default class I18n extends Polyglot {
             let year = parseInt(matches[2]);
             let month = parseInt(matches[3]);
             let day = parseInt(matches[4]);
-            const now = moment();
+            const now = dayjs();
             if (_.isNaN(year) || year < 1970) {
                 //
                 if ((now.month() + 1) >= 11 && month <= 2) {
@@ -110,7 +110,7 @@ export default class I18n extends Polyglot {
                 }
             }
 
-            return moment([year, month - 1, day]);
+            return dayjs(`${year}-${month}-${day}`);
         }
 
         return null;

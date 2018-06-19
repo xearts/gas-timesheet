@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 import { Command } from '../interfaces';
 import Request from '../request';
@@ -9,7 +9,7 @@ export default class CommandSignIn implements Command {
   execute(request: Request, i18n: I18n): Response {
     const user = request.user;
 
-    const now = moment();
+    const now = dayjs();
 
     const parsedDate = i18n.parseDate(request.body);
     const parsedTime = i18n.parseTime(request.body);

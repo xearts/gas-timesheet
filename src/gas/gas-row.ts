@@ -1,7 +1,7 @@
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import Range = GoogleAppsScript.Spreadsheet.Range;
-import * as moment from 'moment';
-import Moment = moment.Moment;
+import * as dayjs from 'dayjs';
+import Dayjs = dayjs.Dayjs;
 import { Row } from '../interfaces';
 
 export class GASRow implements Row {
@@ -11,40 +11,40 @@ export class GASRow implements Row {
     return this.username;
   }
 
-  getDate(): Moment {
-    return moment(this.cells.getCell(1, 1).getValue()).startOf('day');
+  getDate(): Dayjs {
+    return dayjs(
+      this.cells
+        .getCell(1, 1)
+        .getValue()
+        .toString()
+    ).startOf('day');
   }
 
-  setDate(date: Moment) {
-    this.cells.getCell(1, 1).setValue(
-      date
-        .clone()
-        .startOf('day')
-        .toDate()
-    );
+  setDate(date: Dayjs) {
+    this.cells.getCell(1, 1).setValue(date.startOf('day').toDate());
   }
 
-  getSignIn(): Moment {
+  getSignIn(): Dayjs {
     const date = this.cells.getCell(1, 2).getValue();
     if (date) {
-      return moment(date);
+      return dayjs(date.toString());
     }
     return null;
   }
 
-  setSignIn(signIn: Moment) {
+  setSignIn(signIn: Dayjs) {
     this.cells.getCell(1, 2).setValue(signIn.toDate());
   }
 
-  getSignOut(): Moment {
+  getSignOut(): Dayjs {
     const date = this.cells.getCell(1, 3).getValue();
     if (date) {
-      return moment(date);
+      return dayjs(date.toString());
     }
     return null;
   }
 
-  setSignOut(signIn: Moment) {
+  setSignOut(signIn: Dayjs) {
     this.cells.getCell(1, 3).setValue(signIn.toDate());
   }
 

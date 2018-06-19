@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 import { Command } from '../interfaces';
 import CommandDayTotal from './command-day-total';
@@ -11,7 +11,7 @@ export default class CommandRestHours implements Command {
 
   execute(request: Request, i18n: I18n): Response {
     const user = request.user;
-    const now = moment();
+    const now = dayjs();
 
     const restHours = i18n.parseHours(request.body);
     if (!restHours) {

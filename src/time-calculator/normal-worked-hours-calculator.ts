@@ -1,15 +1,12 @@
-import { Moment } from 'moment';
+import { Dayjs } from 'dayjs';
 
 import { TimeCalculator } from '../interfaces';
 
 export default class NormalWorkedHoursCalculator implements TimeCalculator {
-  calculate(signIn: Moment, signOut: Moment, restTime: number): number {
+  calculate(signIn: Dayjs, signOut: Dayjs, restTime: number): number {
     return Math.max(
       0,
-      signOut
-        .clone()
-        .startOf('minutes')
-        .diff(signIn.clone().startOf('minutes'), 'hours', true) - restTime
+      signOut.startOf('minute').diff(signIn.startOf('minute'), 'hour', true) - restTime
     );
   }
 }

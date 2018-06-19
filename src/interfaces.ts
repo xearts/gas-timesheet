@@ -1,4 +1,4 @@
-import {Moment} from "moment";
+import {Dayjs} from "dayjs";
 
 import Request from './request';
 import Response from './response';
@@ -19,14 +19,14 @@ export interface Configure {
 export interface Row {
     getUsername(): string;
 
-    getDate(): Moment;
-    setDate(date: Moment);
+    getDate(): Dayjs;
+    setDate(date: Dayjs);
 
-    getSignIn(): Moment;
-    setSignIn(signIn: Moment);
+    getSignIn(): Dayjs;
+    setSignIn(signIn: Dayjs);
 
-    getSignOut(): Moment;
-    setSignOut(signIn: Moment);
+    getSignOut(): Dayjs;
+    setSignOut(signIn: Dayjs);
 
     getNote(): string;
     setNote(note: string);
@@ -54,9 +54,9 @@ export interface Timesheet {
     getUserName(): string;
     getLocale(): string;
     setLocale(locale: string);
-    getStartDate(): Moment;
-    setStartDate(startDate: Moment);
-    getRow(date: Moment): Row;
+    getStartDate(): Dayjs;
+    setStartDate(startDate: Dayjs);
+    getRow(date: Dayjs): Row;
 }
 
 export interface RequestFactory {
@@ -86,9 +86,9 @@ export interface ResponseHandler {
 }
 
 export interface TimeRounder {
-    round(time: Moment): Moment;
+    round(time: Dayjs): Dayjs;
 }
 
 export interface TimeCalculator {
-    calculate(signIn: Moment, signOut: Moment, restTime: number): number;
+    calculate(signIn: Dayjs, signOut: Dayjs, restTime: number): number;
 }

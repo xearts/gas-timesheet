@@ -13,8 +13,8 @@
     "@types/node": "^10.3.2",
     "@types/node-polyglot": "^0.4.31",
     "bottlejs": "^1.7.1",
+    "dayjs": "^1.6.9",
     "lodash": "^4.17.10",
-    "moment": "^2.22.2",
     "node-polyglot": "^2.2.2"
   },
   "devDependencies": {

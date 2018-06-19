@@ -36,9 +36,8 @@ export default class SlackRequestFactory implements RequestFactory {
       throw new InvalidArgumentError('user not found');
     }
 
-
-    const body = parameter.text.toLowerCase().replace(/[Ａ-Ｚａ-ｚ０-９：／．]/g, function (s) {
-      return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+    const body = parameter.text.toLowerCase().replace(/[Ａ-Ｚａ-ｚ０-９：／．]/g, function(s) {
+      return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
     });
 
     return new Request(body, user);
