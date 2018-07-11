@@ -1,7 +1,7 @@
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
-import * as moment from 'moment';
-import Moment = moment.Moment;
+import * as dayjs from 'dayjs';
+import Dayjs = dayjs.Dayjs;
 
 import { Row, Timesheet } from '../interfaces';
 import Range = GoogleAppsScript.Spreadsheet.Range;
@@ -32,12 +32,12 @@ export default class GASTimesheet implements Timesheet {
     this.sheet.getRange('B1').setValue(locale);
   }
 
-  getStartDate(): Moment {
+  getStartDate(): Dayjs {
     const date = this.sheet.getRange('A3').getValue();
-    return moment(date).startOf('day');
+    return dayjs(date.toString()).startOf('day');
   }
 
-  setStartDate(startDate: Moment) {
+  setStartDate(startDate: Dayjs) {
     this.sheet.getRange('A3').setValue(
       startDate
         .clone()
@@ -46,7 +46,7 @@ export default class GASTimesheet implements Timesheet {
     );
   }
 
-  getRow(date: Moment): Row {
+  getRow(date: Dayjs): Row {
     const range = this.getRange(date);
     if (range) {
       return new GASRow(this.getUserName(), range);
@@ -54,11 +54,8 @@ export default class GASTimesheet implements Timesheet {
     return null;
   }
 
-  private getRange(date: Moment): Range {
-    const diff = date
-      .clone()
-      .startOf('day')
-      .diff(this.getStartDate(), 'days');
+  private getRange(date: Dayjs): Range {
+    const diff = date.startOf('day').diff(this.getStartDate(), 'day');
 
     if (diff >= 0) {
       return this.sheet.getRange(3 + diff, 1, 1, 8);

@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 import { Command } from '../interfaces';
 import Request from '../request';
@@ -10,7 +10,7 @@ export default class CommandSignOut implements Command {
   constructor(private commandDayTotal?: CommandDayTotal) {}
 
   execute(request: Request, i18n: I18n): Response {
-    const now = moment();
+    const now = dayjs();
     const user = request.user;
     const timesheet = user.timesheet;
 

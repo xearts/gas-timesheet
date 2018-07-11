@@ -1,11 +1,11 @@
-import { Moment } from 'moment';
+import { Dayjs } from 'dayjs';
 
 import { TimeRounder } from '../interfaces';
 
 export default class QuoterHourTimeRounder implements TimeRounder {
-  round(time: Moment): Moment {
-    const rounded = time.clone().startOf('minutes');
-    const minutes = rounded.minutes();
-    return rounded.subtract(minutes % 15 || 15, 'minutes').add(15, 'minutes');
+  round(time: Dayjs): Dayjs {
+    const rounded = time.startOf('minute');
+    const minutes = rounded.minute();
+    return rounded.subtract(minutes % 15 || 15, 'minute').add(15, 'minute');
   }
 }
